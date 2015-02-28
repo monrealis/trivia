@@ -10,29 +10,13 @@ public class Game {
 	int[] places = new int[6];
 	int[] purses = new int[6];
 	boolean[] inPenaltyBox = new boolean[6];
-
-	LinkedList<String> popQuestions = new LinkedList<>();
-	LinkedList<String> scienceQuestions = new LinkedList<>();
-	LinkedList<String> sportsQuestions = new LinkedList<>();
-	LinkedList<String> rockQuestions = new LinkedList<>();
+	private Questions questions = new Questions(50);
 
 	int currentPlayer = 0;
 	boolean isGettingOutOfPenaltyBox;
 
 	public Game() {
-		for (int i = 0; i < 50; i++)
-			addQuestion(i);
-	}
 
-	private void addQuestion(int index) {
-		popQuestions.addLast("Pop Question " + index);
-		scienceQuestions.addLast(("Science Question " + index));
-		sportsQuestions.addLast(("Sports Question " + index));
-		rockQuestions.addLast(createRockQuestion(index));
-	}
-
-	public String createRockQuestion(int index) {
-		return "Rock Question " + index;
 	}
 
 	public boolean isPlayable() {
@@ -94,12 +78,8 @@ public class Game {
 	}
 
 	private void askQuestion() {
-		Map<Category, LinkedList<String>> questions = new HashMap<>();
-		questions.put(Category.Pop, popQuestions);
-		questions.put(Category.Science, scienceQuestions);
-		questions.put(Category.Sports, sportsQuestions);
-		questions.put(Category.Rock, rockQuestions);
-		println(questions.get(currentCategory()).removeFirst());
+
+		println(questions.getByCategory(currentCategory()).removeFirst());
 	}
 
 	private Category currentCategory() {
@@ -185,5 +165,9 @@ public class Game {
 
 	private boolean didPlayerWin() {
 		return !(purses[currentPlayer] == 6);
+	}
+
+	public String createRockQuestion(int index) {
+		return questions.createRockQuestion(index);
 	}
 }
