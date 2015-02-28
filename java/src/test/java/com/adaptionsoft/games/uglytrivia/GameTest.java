@@ -10,9 +10,11 @@ import java.io.PrintStream;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class GameTest {
+	private static final String OTHER_NAME = "other name";
 	private static final String NAME = "name";
 	private ByteArrayOutputStream stream;
 	private Game game = new Game();
@@ -45,8 +47,7 @@ public class GameTest {
 
 	@Test
 	public void afterNamesAreAdded_howManyPlayersReturnsNumberOfPlayers() {
-		game.add(NAME);
-		game.add("other name");
+		prepareGameOfTwo();
 		assertEquals(2, game.howManyPlayers());
 	}
 
@@ -58,8 +59,7 @@ public class GameTest {
 
 	@Test
 	public void ifTwoPlayersOrMore_playable() {
-		game.add(NAME);
-		game.add("other name");
+		prepareGameOfTwo();
 		assertTrue(game.isPlayable());
 	}
 
@@ -75,7 +75,7 @@ public class GameTest {
 
 	@Test
 	public void roll_logsSeveralLines() {
-		game.add(NAME);
+		prepareGameOfTwo();
 		capture();
 		game.roll(0);
 		String[] expected = { "name is the current player",
@@ -86,7 +86,7 @@ public class GameTest {
 
 	@Test
 	public void afterWrongAnswer_sendsPlayerToPenaltyBox() {
-		game.add(NAME);
+		prepareGameOfTwo();
 		capture();
 		game.wrongAnswer();
 		assertLines("Question was incorrectly answered",
@@ -95,10 +95,31 @@ public class GameTest {
 
 	@Test
 	public void afterCorrectAnswer_playerGetsOneCoin() {
-		game.add(NAME);
+		prepareGameOfTwo();
 		capture();
 		game.wasCorrectlyAnswered();
 		assertLines("Answer was corrent!!!!", "name now has 1 Gold Coins.");
+	}
+
+	@Test
+	public void afterTwoCorrectAnswers_() {
+		prepareGameOfTwo();
+		game.wasCorrectlyAnswered();
+		capture();
+		game.wasCorrectlyAnswered();
+		assertLines("Answer was corrent!!!!",
+				"other name now has 1 Gold Coins.");
+	}
+
+	@Test
+	@Ignore
+	public void after10CorrectAnswers_playerGetsTenCoins() {
+		prepareGameOfTwo();
+		for (int i = 0; i < 9; ++i)
+			game.wasCorrectlyAnswered();
+		capture();
+		game.wasCorrectlyAnswered();
+		assertLines("Answer was corrent!!!!", "name now has 10 Gold Coins.");
 	}
 
 	private void assertLines(String... lines) {
@@ -107,6 +128,11 @@ public class GameTest {
 
 	private void assertOutput(String expected) {
 		assertEquals(expected, stream.toString());
+	}
+
+	private void prepareGameOfTwo() {
+		game.add(NAME);
+		game.add(OTHER_NAME);
 	}
 
 	private void capture() {
