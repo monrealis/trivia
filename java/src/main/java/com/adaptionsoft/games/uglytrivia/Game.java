@@ -4,26 +4,29 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Game {
-	ArrayList players = new ArrayList();
+	ArrayList<String> players = new ArrayList<>();
 	int[] places = new int[6];
 	int[] purses = new int[6];
 	boolean[] inPenaltyBox = new boolean[6];
 
-	LinkedList popQuestions = new LinkedList();
-	LinkedList scienceQuestions = new LinkedList();
-	LinkedList sportsQuestions = new LinkedList();
-	LinkedList rockQuestions = new LinkedList();
+	LinkedList<String> popQuestions = new LinkedList<>();
+	LinkedList<String> scienceQuestions = new LinkedList<>();
+	LinkedList<String> sportsQuestions = new LinkedList<>();
+	LinkedList<String> rockQuestions = new LinkedList<>();
 
 	int currentPlayer = 0;
 	boolean isGettingOutOfPenaltyBox;
 
 	public Game() {
-		for (int i = 0; i < 50; i++) {
-			popQuestions.addLast("Pop Question " + i);
-			scienceQuestions.addLast(("Science Question " + i));
-			sportsQuestions.addLast(("Sports Question " + i));
-			rockQuestions.addLast(createRockQuestion(i));
-		}
+		for (int i = 0; i < 50; i++)
+			addQuestion(i);
+	}
+
+	private void addQuestion(int index) {
+		popQuestions.addLast("Pop Question " + index);
+		scienceQuestions.addLast(("Science Question " + index));
+		sportsQuestions.addLast(("Sports Question " + index));
+		rockQuestions.addLast(createRockQuestion(index));
 	}
 
 	public String createRockQuestion(int index) {
@@ -60,12 +63,12 @@ public class Game {
 
 				println(players.get(currentPlayer)
 						+ " is getting out of the penalty box");
-				places[currentPlayer] = places[currentPlayer] + roll;
-				if (places[currentPlayer] > 11)
-					places[currentPlayer] = places[currentPlayer] - 12;
+				places[currentPlayer] = currentPlace() + roll;
+				if (currentPlace() > 11)
+					places[currentPlayer] = currentPlace() - 12;
 
 				println(players.get(currentPlayer) + "'s new location is "
-						+ places[currentPlayer]);
+						+ currentPlace());
 				println("The category is " + currentCategory());
 				askQuestion();
 			} else {
@@ -76,12 +79,12 @@ public class Game {
 
 		} else {
 
-			places[currentPlayer] = places[currentPlayer] + roll;
-			if (places[currentPlayer] > 11)
-				places[currentPlayer] = places[currentPlayer] - 12;
+			places[currentPlayer] = currentPlace() + roll;
+			if (currentPlace() > 11)
+				places[currentPlayer] = currentPlace() - 12;
 
 			println(players.get(currentPlayer) + "'s new location is "
-					+ places[currentPlayer]);
+					+ currentPlace());
 			println("The category is " + currentCategory());
 			askQuestion();
 		}
@@ -89,36 +92,40 @@ public class Game {
 	}
 
 	private void askQuestion() {
-		if (currentCategory() == "Pop")
+		if (currentCategory() == Category.Pop)
 			println(popQuestions.removeFirst());
-		if (currentCategory() == "Science")
+		if (currentCategory() == Category.Science)
 			println(scienceQuestions.removeFirst());
-		if (currentCategory() == "Sports")
+		if (currentCategory() == Category.Sports)
 			println(sportsQuestions.removeFirst());
-		if (currentCategory() == "Rock")
+		if (currentCategory() == Category.Rock)
 			println(rockQuestions.removeFirst());
 	}
 
-	private String currentCategory() {
-		if (places[currentPlayer] == 0)
-			return "Pop";
-		if (places[currentPlayer] == 4)
-			return "Pop";
-		if (places[currentPlayer] == 8)
-			return "Pop";
-		if (places[currentPlayer] == 1)
-			return "Science";
-		if (places[currentPlayer] == 5)
-			return "Science";
-		if (places[currentPlayer] == 9)
-			return "Science";
-		if (places[currentPlayer] == 2)
-			return "Sports";
-		if (places[currentPlayer] == 6)
-			return "Sports";
-		if (places[currentPlayer] == 10)
-			return "Sports";
-		return "Rock";
+	private Category currentCategory() {
+		if (currentPlace() == 0)
+			return Category.Pop;
+		if (currentPlace() == 4)
+			return Category.Pop;
+		if (currentPlace() == 8)
+			return Category.Pop;
+		if (currentPlace() == 1)
+			return Category.Science;
+		if (currentPlace() == 5)
+			return Category.Science;
+		if (currentPlace() == 9)
+			return Category.Science;
+		if (currentPlace() == 2)
+			return Category.Sports;
+		if (currentPlace() == 6)
+			return Category.Sports;
+		if (currentPlace() == 10)
+			return Category.Sports;
+		return Category.Rock;
+	}
+
+	private int currentPlace() {
+		return places[currentPlayer];
 	}
 
 	public boolean wasCorrectlyAnswered() {
