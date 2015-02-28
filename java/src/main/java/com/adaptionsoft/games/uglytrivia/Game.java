@@ -1,7 +1,9 @@
 package com.adaptionsoft.games.uglytrivia;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class Game {
 	ArrayList<String> players = new ArrayList<>();
@@ -92,14 +94,12 @@ public class Game {
 	}
 
 	private void askQuestion() {
-		if (currentCategory() == Category.Pop)
-			println(popQuestions.removeFirst());
-		if (currentCategory() == Category.Science)
-			println(scienceQuestions.removeFirst());
-		if (currentCategory() == Category.Sports)
-			println(sportsQuestions.removeFirst());
-		if (currentCategory() == Category.Rock)
-			println(rockQuestions.removeFirst());
+		Map<Category, LinkedList<String>> questions = new HashMap<>();
+		questions.put(Category.Pop, popQuestions);
+		questions.put(Category.Science, scienceQuestions);
+		questions.put(Category.Sports, sportsQuestions);
+		questions.put(Category.Rock, rockQuestions);
+		println(questions.get(currentCategory()).removeFirst());
 	}
 
 	private Category currentCategory() {
