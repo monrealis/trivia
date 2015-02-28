@@ -102,7 +102,7 @@ public class GameTest {
 	}
 
 	@Test
-	public void afterTwoCorrectAnswers_() {
+	public void afterTwoCorrectAnswers_secondPlayerHasOneGoldenCoin() {
 		prepareGameOfTwo();
 		game.wasCorrectlyAnswered();
 		capture();
