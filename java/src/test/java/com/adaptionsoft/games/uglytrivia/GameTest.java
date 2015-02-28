@@ -111,17 +111,6 @@ public class GameTest {
 				"other name now has 1 Gold Coins.");
 	}
 
-	@Test
-	@Ignore
-	public void after10CorrectAnswers_playerGetsTenCoins() {
-		prepareGameOfTwo();
-		for (int i = 0; i < 9; ++i)
-			game.wasCorrectlyAnswered();
-		capture();
-		game.wasCorrectlyAnswered();
-		assertLines("Answer was corrent!!!!", "name now has 10 Gold Coins.");
-	}
-
 	private void assertLines(String... lines) {
 		assertOutput(join("\n", lines) + "\n");
 	}
