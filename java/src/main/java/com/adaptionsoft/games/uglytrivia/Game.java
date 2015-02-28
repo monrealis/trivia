@@ -43,7 +43,7 @@ public class Game {
 		println(players.get(currentPlayer) + " is the current player");
 		println("They have rolled a " + roll);
 
-		if (inPenaltyBox[currentPlayer]) {
+		if (isCurrentPlayerInPenaltyBox()) {
 			if (roll % 2 != 0) {
 				isGettingOutOfPenaltyBox = true;
 
@@ -78,8 +78,11 @@ public class Game {
 	}
 
 	private void askQuestion() {
+		println(getQuestion());
+	}
 
-		println(questions.getByCategory(currentCategory()).removeFirst());
+	private String getQuestion() {
+		return questions.getByCategory(currentCategory()).removeFirst();
 	}
 
 	private Category currentCategory() {
@@ -91,25 +94,18 @@ public class Game {
 	}
 
 	public boolean wasCorrectlyAnswered() {
-		if (inPenaltyBox[currentPlayer]) {
-			if (isGettingOutOfPenaltyBox) {
-				println("Answer was correct!!!!");
-				purses[currentPlayer]++;
-				println(players.get(currentPlayer) + " now has "
-						+ purses[currentPlayer] + " Gold Coins.");
-				boolean winner = didPlayerWin();
-				currentPlayer++;
-				if (currentPlayer == players.size())
-					currentPlayer = 0;
+		if (isCurrentPlayerInPenaltyBox() && isGettingOutOfPenaltyBox) {
+			println("Answer was correct!!!!");
+			purses[currentPlayer]++;
+			println(players.get(currentPlayer) + " now has "
+					+ purses[currentPlayer] + " Gold Coins.");
+			boolean winner = didPlayerWin();
+			switchToNextPlayer();
 
-				return winner;
-			} else {
-				currentPlayer++;
-				if (currentPlayer == players.size())
-					currentPlayer = 0;
-				return true;
-			}
-
+			return winner;
+		} else if (isCurrentPlayerInPenaltyBox() && !isGettingOutOfPenaltyBox) {
+			switchToNextPlayer();
+			return true;
 		} else {
 
 			println(getCorrectAnswerText());
@@ -118,12 +114,14 @@ public class Game {
 					+ purses[currentPlayer] + " Gold Coins.");
 
 			boolean winner = didPlayerWin();
-			currentPlayer++;
-			if (currentPlayer == players.size())
-				currentPlayer = 0;
+			switchToNextPlayer();
 
 			return winner;
 		}
+	}
+
+	private boolean isCurrentPlayerInPenaltyBox() {
+		return inPenaltyBox[currentPlayer];
 	}
 
 	private String getCorrectAnswerText() {
@@ -135,10 +133,14 @@ public class Game {
 		println(players.get(currentPlayer) + " was sent to the penalty box");
 		inPenaltyBox[currentPlayer] = true;
 
+		switchToNextPlayer();
+		return true;
+	}
+
+	private void switchToNextPlayer() {
 		currentPlayer++;
 		if (currentPlayer == players.size())
 			currentPlayer = 0;
-		return true;
 	}
 
 	protected void println(Object text) {
