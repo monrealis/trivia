@@ -137,7 +137,7 @@ public class Game {
 			
 		} else {
 		
-			System.out.println("Answer was corrent!!!!");
+			System.out.println(getCorrectAnswerText());
 			purses[currentPlayer]++;
 			System.out.println(players.get(currentPlayer) 
 					+ " now has "
@@ -150,6 +150,10 @@ public class Game {
 			
 			return winner;
 		}
+	}
+
+	private String getCorrectAnswerText() {
+		return "Answer was correct!!!!";
 	}
 	
 	public boolean wrongAnswer(){

@@ -10,7 +10,6 @@ import java.io.PrintStream;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class GameTest {
@@ -98,7 +97,7 @@ public class GameTest {
 		prepareGameOfTwo();
 		capture();
 		game.wasCorrectlyAnswered();
-		assertLines("Answer was corrent!!!!", "name now has 1 Gold Coins.");
+		assertLines("Answer was correct!!!!", "name now has 1 Gold Coins.");
 	}
 
 	@Test
@@ -107,7 +106,7 @@ public class GameTest {
 		game.wasCorrectlyAnswered();
 		capture();
 		game.wasCorrectlyAnswered();
-		assertLines("Answer was corrent!!!!",
+		assertLines("Answer was correct!!!!",
 				"other name now has 1 Gold Coins.");
 	}
 
