@@ -16,7 +16,7 @@ public class GameTest {
 	private static final String OTHER_NAME = "other name";
 	private static final String NAME = "name";
 	private ByteArrayOutputStream stream;
-	private Game game = new Game();
+	private WhiteBoxGame game = new WhiteBoxGame();
 	private PrintStream originalOut;
 
 	@Before
