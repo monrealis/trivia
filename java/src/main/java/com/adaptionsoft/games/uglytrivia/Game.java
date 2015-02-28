@@ -83,25 +83,7 @@ public class Game {
 	}
 
 	private Category currentCategory() {
-		if (currentPlace() == 0)
-			return Category.Pop;
-		if (currentPlace() == 4)
-			return Category.Pop;
-		if (currentPlace() == 8)
-			return Category.Pop;
-		if (currentPlace() == 1)
-			return Category.Science;
-		if (currentPlace() == 5)
-			return Category.Science;
-		if (currentPlace() == 9)
-			return Category.Science;
-		if (currentPlace() == 2)
-			return Category.Sports;
-		if (currentPlace() == 6)
-			return Category.Sports;
-		if (currentPlace() == 10)
-			return Category.Sports;
-		return Category.Rock;
+		return new CategoriesByPlace().get(currentPlace());
 	}
 
 	private int currentPlace() {
