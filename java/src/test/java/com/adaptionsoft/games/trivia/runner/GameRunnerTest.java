@@ -56,6 +56,6 @@ public class GameRunnerTest {
 	public void outputUnchangedFromPreviousVersion() throws IOException {
 		String expected = join("\n", readAllLines(masterFile)) + "\n";
 		String actual = playLotsOfGames();
-		assertEquals(expected, actual);
+        assertEquals(expected.replaceAll("[\n\r]+", "\n"), actual.replaceAll("[\n\r]+", "\n"));
 	}
 }
